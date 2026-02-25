@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircleHeart, Music4, Phone, PhoneCall, X, Check } from 'lucide-react';
+import { MessageCircleHeart, Music4, Phone, PhoneCall, X, Check, Trash2 } from 'lucide-react';
 
 const CONTACT_KEY = 'danjjak-emergency-contact';
 
@@ -31,6 +31,12 @@ export default function HomePage() {
         localStorage.setItem(CONTACT_KEY, JSON.stringify(newContact));
         setContact(newContact);
         setIsEditing(false);
+    };
+
+    const deleteContact = () => {
+        if (!window.confirm('연락처를 삭제할까요?')) return;
+        localStorage.removeItem(CONTACT_KEY);
+        setContact(null);
     };
 
     const startEdit = () => {
@@ -195,20 +201,34 @@ export default function HomePage() {
                             119
                         </a>
 
-                        {/* 연락처 수정 버튼 (등록된 경우만) */}
+                        {/* 수정/삭제 버튼 (등록된 경우만) */}
                         {contact && (
-                            <button
-                                onClick={startEdit}
-                                style={{
-                                    width: '56px', minHeight: '70px', padding: 0,
-                                    backgroundColor: 'var(--bg-color)', boxShadow: 'none',
-                                    color: 'var(--text-dim)', fontSize: '14px',
-                                    flexDirection: 'column', gap: '4px',
-                                }}
-                            >
-                                <Phone size={18} />
-                                수정
-                            </button>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                <button
+                                    onClick={startEdit}
+                                    style={{
+                                        width: '56px', minHeight: '32px', padding: 0,
+                                        backgroundColor: 'var(--bg-color)', boxShadow: 'none',
+                                        color: 'var(--text-dim)', fontSize: '13px',
+                                        flexDirection: 'column', gap: '2px',
+                                    }}
+                                >
+                                    <Phone size={16} />
+                                    수정
+                                </button>
+                                <button
+                                    onClick={deleteContact}
+                                    style={{
+                                        width: '56px', minHeight: '32px', padding: 0,
+                                        backgroundColor: 'var(--bg-color)', boxShadow: 'none',
+                                        color: '#EF5350', fontSize: '13px',
+                                        flexDirection: 'column', gap: '2px',
+                                    }}
+                                >
+                                    <Trash2 size={16} />
+                                    삭제
+                                </button>
+                            </div>
                         )}
                     </div>
                 )}
